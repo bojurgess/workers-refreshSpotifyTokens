@@ -17,7 +17,7 @@ function strings2base64(x, y) {
   return btoa(binary)
 }
 
-async function refreshAccessTokens({ client_id, client_secret, refresh_token }) {
+async function refreshAccessTokens({ client_id, client_secret, refresh_token, spottyKv, uid }) {
   const host = 'https://accounts.spotify.com/api/token'
 
   const response = await fetch(host, {
@@ -33,6 +33,14 @@ async function refreshAccessTokens({ client_id, client_secret, refresh_token }) 
   }).then((data) => {
     return data.json()
   })
+
+  if (uid === 0) {
+    console.log('pushed to kv.')
+    spottyKv.put('access_token_beno', response.access_token)
+  } else if (uid === 1) {
+    console.log('pushed to kv.')
+    spottyKv.put('access_token_aidan', response.access_token)
+  }
 
   return response;
 }
@@ -52,14 +60,6 @@ export default {
       UID: uid,
     } = env
 
-    console.log(uid)
-
-		ctx.waitUntil(refreshAccessTokens({ client_id, client_secret, refresh_token }).then((data) => {
-      if (uid === 0) {
-        kvNamespace.put('access_token_beno', data.access_token)
-      } else if (uid === 1) {
-        kvNamespace.put('access_token_aidan', data.access_token)
-      }
-    }))
+		ctx.waitUntil(refreshAccessTokens({ client_id, client_secret, refresh_token, spottyKv, uid }))
 	},
 };
