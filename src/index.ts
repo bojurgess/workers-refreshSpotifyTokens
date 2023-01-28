@@ -3,7 +3,7 @@ export interface Env {
   CLIENT_ID: string;
   CLIENT_SECRET: string;
   REFRESH_TOKEN: string;
-  UID: number;
+  UID: string;
 }
 
 function strings2base64(x, y) {
@@ -51,6 +51,8 @@ export default {
       SPOTTY_KV: spottyKv,
       UID: uid,
     } = env
+
+    console.log(uid)
 
 		ctx.waitUntil(refreshAccessTokens({ client_id, client_secret, refresh_token }).then((data) => {
       if (uid === 0) {
