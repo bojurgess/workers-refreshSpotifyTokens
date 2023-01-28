@@ -3,6 +3,7 @@ export interface Env {
   CLIENT_ID: string;
   CLIENT_SECRET: string;
   REFRESH_TOKEN: string;
+  UID: number;
 }
 
 function strings2base64(x, y) {
@@ -18,7 +19,6 @@ function strings2base64(x, y) {
 
 async function refreshAccessTokens({ client_id, client_secret, refresh_token }) {
   const host = 'https://accounts.spotify.com/api/token'
-  console.log(strings2base64(client_id, client_secret))
 
   const response = await fetch(host, {
     method: 'POST',
@@ -49,8 +49,15 @@ export default {
       CLIENT_SECRET: client_secret,
       REFRESH_TOKEN: refresh_token,
       SPOTTY_KV: spottyKv,
+      UID: uid,
     } = env
 
-		ctx.waitUntil(refreshAccessTokens({ client_id, client_secret, refresh_token }))
+		ctx.waitUntil(refreshAccessTokens({ client_id, client_secret, refresh_token }).then((data) => {
+      if (uid === 0) {
+        kvNamespace.put('access_token_beno', data.access_token)
+      } else if (uid === 1) {
+        kvNamespace.put('access_token_aidan', data.access_token)
+      }
+    }))
 	},
 };
