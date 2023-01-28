@@ -1,0 +1,6 @@
+name = "refreshspotifytokens"
+main = "src/index.ts"
+compatibility_date = "2023-01-28"
+
+[triggers]
+crons = [ "1 * * * *" ]
