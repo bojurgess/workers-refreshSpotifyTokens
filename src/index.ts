@@ -35,10 +35,8 @@ async function refreshAccessTokens({ client_id, client_secret, refresh_token, sp
   })
 
   if (uid === 0) {
-    console.log('pushed to kv.')
     spottyKv.put('access_token_beno', response.access_token)
   } else if (uid === 1) {
-    console.log('pushed to kv.')
     spottyKv.put('access_token_aidan', response.access_token)
   }
 
