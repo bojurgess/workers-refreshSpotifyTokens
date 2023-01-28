@@ -1,0 +1,20 @@
+name = "refreshspotifytokens"
+main = "src/index.ts"
+compatibility_date = "2023-01-28"
+
+kv_namespaces = [
+  { binding = "SPOTTY_KV", id="your id", preview_id="preview id" }
+]
+
+[vars]
+CLIENT_ID = 'CLIENT_ID HERE'
+CLIENT_SECRET = 'CLIENT_SECRET HERE'
+REFRESH_TOKEN = 'REFRESH_TOKEN HERE'
+
+[env.production.vars]
+CLIENT_ID = 'CLIENT_ID HERE'
+CLIENT_SECRET = 'CLIENT_SECRET HERE'
+REFRESH_TOKEN = 'REFRESH_TOKEN HERE'
+
+[triggers]
+crons = [ "1 * * * *" ]
