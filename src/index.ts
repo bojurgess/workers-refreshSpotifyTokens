@@ -35,9 +35,9 @@ async function refreshAccessTokens({ client_id, client_secret, refresh_token, sp
   })
 
   if (uid === 0) {
-    spottyKv.put('access_token_beno', response.access_token)
+    await spottyKv.put('access_token_beno', response.access_token)
   } else if (uid === 1) {
-    spottyKv.put('access_token_aidan', response.access_token)
+    await spottyKv.put('access_token_aidan', response.access_token)
   }
 
   return response;
